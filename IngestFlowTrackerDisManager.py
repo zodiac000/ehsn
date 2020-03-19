@@ -37,7 +37,7 @@ def GetStationID(path):
         if data[0] == "File_Name":
             return data[1][:7]
 
-
+ 
     print "Unable to read the dis file"
     return -1
 
@@ -51,11 +51,17 @@ def GetDate(path):
             return data[1][:10]
 
 
+
+
+
+
     
 def AddDischargeSummary(path, disMeasManager):
 
     # startTime, endTime, airTemp, waterTemp, width, area, meanVelocity, discharge = GetDischargeSummary(path)
-    startTime, endTime, airTemp, width, area, meanVelocity, discharge = GetDischargeSummary(path)
+    startTime, endTime, airTemp, width, area, meanVelocity, discharge, uncertainty \
+            = GetDischargeSummary(path)
+
     color = disMeasManager.manager.gui.importedBGColor
 
     if startTime is not None and startTime != "":
@@ -93,6 +99,12 @@ def AddDischargeSummary(path, disMeasManager):
         wx.PostEvent(disMeasManager.GetDischCtrl(), myEvent)
         disMeasManager.GetDischCtrl().SetBackgroundColour(color)
 
+    if uncertainty is not None and uncertainty != "":
+        disMeasManager.uncertaintyCtrl = uncertainty
+        myEvent = wx.FocusEvent(eventType=wx.wxEVT_KILL_FOCUS, id=wx.NewId())
+        myEvent.SetEventObject(disMeasManager.GetUncertaintyCtrl())
+        wx.PostEvent(disMeasManager.GetUncertaintyCtrl(), myEvent)
+        disMeasManager.GetUncertaintyCtrl().SetBackgroundColour(color)
 
 
 def AddDischargeDetail(path, instrDepManager):
@@ -186,6 +198,7 @@ def GetDischargeSummary(path):
     area = ""
     meanVelocity = ""
     discharge = ""
+    uncertainty = ""
     timesArray = []
     count = 0
 
@@ -195,7 +208,7 @@ def GetDischargeSummary(path):
 
 
 
-    for data in finalData:
+    for idx, data in enumerate(finalData):
         if len(data) > 0:
 
             if data[0] == "Start_Date_and_Time":
@@ -213,6 +226,10 @@ def GetDischargeSummary(path):
             elif data[0] == "Total_Discharge":
                 discharge = data[1]
 
+            elif data[0] == "Discharge_Uncertainty_(Statistical)":
+                uncertainty = finalData[idx+1][1]
+                uncertainty = str(round(float(uncertainty)*2, 2))
+
             if data[0] == "00":
                 for time in finalData[count:len(finalData)]:
                     timesArray.append(time[1]) #store all times from dis file into timesArray
@@ -227,8 +244,8 @@ def GetDischargeSummary(path):
     
     
 
-    # return startTime, endTime, airTemp, waterTemp, width, area, meanVelocity, discharge
-    return startTime, endTime, airTemp, width, area, meanVelocity, discharge
+    # return startTime, endTime, airTemp, waterTemp, width, area, meanVelocity, discharge, uncertainty
+    return startTime, endTime, airTemp, width, area, meanVelocity, discharge, uncertainty
 
 
 
@@ -781,3 +798,11 @@ def GetInstrumentType(path):
 
         
 #     return res
+
+
+if __name__ == '__main__':
+    from pdb import set_trace
+    startTime, endTime, airTemp, width, area, meanVelocity, discharge, uncertainty \
+            = GetDischargeSummary('/imports/02KF013_20170328.dis')
+
+    print(uncertainty)

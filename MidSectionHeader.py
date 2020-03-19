@@ -72,7 +72,7 @@ class MidSectionHeader(wx.Panel):
         self.startBanks = ["Left", "Right"]
         self.dir = self.GetParent().GetParent().GetParent().GetParent().dir
         self.transferBtnLbl = "Transfer to Front Page"
-        self.transferFrameSize = (420, 300)
+        self.transferFrameSize = (420, 310)
 
         if hasattr(sys, '_MEIPASS'):
             self.myBitmapFront = os.path.join(sys._MEIPASS, "backarrow.png")
