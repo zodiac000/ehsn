@@ -1,0 +1,12 @@
+wxpython
+matplotlib==2.0.2
+requests
+qrcode
+lxml
+xhtml2pdf==0.0.6
+https://bitbucket.org/jurko/suds/get/tip.tar.gz#egg=suds
+html5lib==1.0b8
+
+
+pywin32
+xlsxwriter
