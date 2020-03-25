@@ -974,6 +974,7 @@ class InstrumentDeploymentInfoPanel(wx.Panel):
 	else:
 	    self.horizontalSizer1.Show(self.monitoringMethodSizer, True)
 
+
         self.Refresh()
 
 
@@ -1076,6 +1077,10 @@ class InstrumentDeploymentInfoPanel(wx.Panel):
 
                 self.EnableMidsectionInfo(True)
                 self.EnableAdcpInfo(True)
+
+            elif check == 3 or check == 4: #Other methods or Engineered Structures
+                self.EnableAdcpInfo(False)
+                self.EnableMidsectionInfo(False)
 
             self.EnableGeneralInfo(True)
 
