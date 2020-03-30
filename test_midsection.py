@@ -1,11 +1,29 @@
 import wx
 from wx.lib.scrolledpanel import ScrolledPanel
+# import matplotlib.backends.backend_wxagg
+from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg as FigureCanvas
+from matplotlib.backends.backend_wxagg import NavigationToolbar2WxAgg as NavigationToolbar
+from matplotlib.widgets import Cursor
+
 from pdb import set_trace
+# import wx.lib.plot as plt
+import matplotlib.pyplot as plt
+import numpy as np
+import mpld3
+
+# class PlotCanvas(plt.PlotCanvas):
+    # def __init__(self, parent, size):
+        # plt.PlotCanvas.__init__(self, parent, style=wx.SIMPLE_BORDER, size=size)
+        # self.data = [(1,2), (2,3), (3,5), (4,6), (5,8), (6,8), (10,10)]
+        # line = plt.PolyLine(self.data, legend='', colour='pink', width=2)
+        # gc = plt.PlotGraphics([line], 'Line Graph', 'X Axis', 'Y Axis')
+        # self.Draw(gc, xAxis=(0,15), yAxis=(0,15))
 
 
-class MidsectionPanel(wx.Panel):
-    def __init__(self, *args, **kwargs):
-        super(MidsectionPanel, self).__init__(*args, **kwargs)
+class MidsectionImport(wx.Panel):
+    def __init__(self, midsecHeader=None, *args, **kwargs):
+        super(MidsectionImport, self).__init__(*args, **kwargs)
+        self.midsecHeader = midsecHeader
         self.headerLbl = "Header"
         self.testLbl1 = "test label1"
         self.testLbl2 = "test label2"
@@ -35,7 +53,26 @@ class MidsectionPanel(wx.Panel):
         self.panelSizerH.Add((40, -1), 0, wx.EXPAND)
 
         self.panel2SizerH = wx.BoxSizer(wx.HORIZONTAL)
+
+        
+
         self.canvasPanel = wx.Panel(self, style=wx.SIMPLE_BORDER)
+        self.canvaSizerV = wx.BoxSizer(wx.VERTICAL)
+        self.canvasPanel.SetSizer(self.canvaSizerV)
+
+        # self.fig, self.ax = plt.figure()
+        if self.midsecHeader != None:
+            self.midsectionHeader, self.fig, self.ax, self.tags, self.depths, self.tagmarkLineList, self.depthTagList, \
+                    self.depthList = self.midsecHeader.GeneratePlot()
+            self.annot = self.ax.annotate("_anno_", xy=(20,0.8), xytext=(50,50),textcoords="offset points", \
+                    bbox=dict(boxstyle="round", fc="w"),
+                    arrowprops=dict(arrowstyle="->"))
+            self.annot.set_visible(True)
+
+            self.canvas = FigureCanvas(self.canvasPanel, -1, self.fig)
+            self.fig.canvas.mpl_connect('button_press_event', self.onMouseClickAx2)
+            self.fig.canvas.mpl_connect('motion_notify_event', self.onMouseOverAx2)
+            self.canvaSizerV.Add(self.canvas, 1, wx.EXPAND)
 
 
         self.panel2SizerH.Add((40, -1), 0, wx.EXPAND)
@@ -45,7 +82,7 @@ class MidsectionPanel(wx.Panel):
 
 
         self.panelSizerV.Add((-1, 80), 0, wx.EXPAND)
-        self.panelSizerV.Add(self.panelSizerH, 4, wx.EXPAND)
+        self.panelSizerV.Add(self.panelSizerH, 1, wx.EXPAND)
         self.panelSizerV.Add((-1, 80), 0, wx.EXPAND)
         self.panelSizerV.Add(self.panel2SizerH, 1, wx.EXPAND)
         self.panelSizerV.Add((-1, 80), 0, wx.EXPAND)
@@ -184,6 +221,30 @@ class MidsectionPanel(wx.Panel):
         self.testTxt4_4.Bind(wx.EVT_ENTER_WINDOW, self.onMouseOver)
         self.testTxt4_4.Bind(wx.EVT_LEAVE_WINDOW, self.onMouseLeave)
 
+    def onMouseOverAx2(self, event):
+        print("===================Ax2 mouse over===========")
+        if event.inaxes == self.ax:
+            x, y = event.xdata, event.ydata
+            self.midsecHeader.Fill_ax2_light(x, y, self.tags, self.depths, self.tagmarkLineList, self.depthTagList, self.depthList)
+            self.Layout()
+            self.Refresh()
+            # print("{}, {}".format(x, y))
+            
+    def onMouseClickAx2(self, event):
+        print("===================Ax2 mouse click===========")
+        if event.inaxes == self.ax:
+            x, y = event.xdata, event.ydata
+            self.midsecHeader.Fill_ax2_dark(x, y, self.tags, self.depths, self.tagmarkLineList, self.depthTagList, self.depthList)
+            self.Layout()
+            self.Refresh()
+            # print("{}, {}".format(x, y))
+            # print("ax: {}".format(self.ax))
+            
+
+
+    def onMouseClickPlt(self, event):
+        print("===================plt mouse click===========")
+
     def onMouseOver(self, event):
         obj = event.GetEventObject().GetParent()
         obj.SetBackgroundColour('Green')
@@ -226,11 +287,10 @@ class MidsectionPanel(wx.Panel):
 def main():
     app = wx.App()
 
-    frame = wx.Frame(None, size=(800, 400))
-    midPanel = MidsectionPanel(frame)
+    frame = wx.Frame(None, size=(800, 1200))
+    midPanel = MidsectionImport(frame)
 
     frame.Show()
-    # set_trace()
 
     app.MainLoop()
 
