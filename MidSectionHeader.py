@@ -428,8 +428,9 @@ class MidSectionHeader(wx.Panel):
         panelObjs = self.GetParent().table.panelObjs
 
         isIncreasing = True
-        if float(panelObjs[0].distance) > float(panelObjs[1].distance):
-            isIncreasing = False
+        if len(panelObjs) > 0:
+            if float(panelObjs[0].distance) > float(panelObjs[1].distance):
+                isIncreasing = False
 
 
         width, height = wx.GetDisplaySize()
@@ -645,7 +646,7 @@ class MidSectionHeader(wx.Panel):
         aDepthTagList = sorted(depthTagList)
         if not isIncreasing:
             aY = y[::-1]
-            aDepthList = aDepthList[::-1]
+            aDepthList = depthList[::-1]
         else:
             aY = y
             aDepthList = depthList
@@ -723,7 +724,7 @@ class MidSectionHeader(wx.Panel):
         return self, fig, self.ax[1], tags, depths, tagmarkLineList, depthTagList, depthList
 
     #Refill ax2 with light color
-    def Fill_ax2_light(self, cursorX, cursorY, tags, depths, tagmarkLineList, depthTagList, depthList):
+    def fill_ax2_mouse_over(self, cursorX, cursorY, tags, depths, tagmarkLineList, depthTagList, depthList):
         
         for index, tag in enumerate(tags[:-1]):
             #there is a saved highlighted panel
@@ -887,7 +888,7 @@ class MidSectionHeader(wx.Panel):
 
 
     #Refill ax2 with dark color
-    def Fill_ax2_dark(self, cursorX, cursorY, tags, depths, tagmarkLineList, depthTagList, depthList):
+    def fill_ax2_click(self, cursorX, cursorY, tags, depths, tagmarkLineList, depthTagList, depthList):
         for index, tag in enumerate(tags[:-1]):
             if tags[index] < cursorX < tags[index+1] and (cursorY < depths[index] or cursorY < depths[index+1]):
                 if tags[index] in tagmarkLineList:

@@ -27,7 +27,7 @@ from ConfigParser import SafeConfigParser
 from ZoomPanel import *
 # from RemarksPanel import *
 
-from test_midsection import *
+from test_midsection import MidsectionImportPanel
 
 
 
@@ -687,15 +687,15 @@ Note: The FlowTracker2 date and time is stored as UTC along with an offset for l
         self.form6Sizer = wx.BoxSizer(wx.VERTICAL)
         self.form6 = SpecialScrolledPanel(self.layout, style=wx.SIMPLE_BORDER)
         self.form6.SetupScrolling()
-
-        self.showBtn = wx.Button(self.form6, label="Show")
-        self.showBtn.Bind(wx.EVT_BUTTON, self.OnMidShowBtn)
-        # self.midsecImportPanel = MidsectionImport(self.form6, style=wx.SIMPLE_BORDER, size=(920, -1))
         self.midsecImportPanel = None
-        # self.midsecImportPanel.Hide()
+        self.showBtn = wx.Button(self.form6, label="Show / Refresh", size=(200, -1))
+        self.showBtn.Bind(wx.EVT_BUTTON, self.OnMidShowBtn)
+
+        # self.removeBtn = wx.Button(self.form6, label="Remove")
+        # self.removeBtn.Bind(wx.EVT_BUTTON, self.OnMidRemoveBtn)
 
         self.form6Sizer.Add(self.showBtn, 0, wx.EXPAND)
-        # self.form6Sizer.Add(self.midsecImportPanel, 1, wx.EXPAND)
+        # self.form6Sizer.Add(self.removeBtn, 0, wx.EXPAND)
         self.form6.SetSizerAndFit(self.form6Sizer)
 
 
@@ -3132,15 +3132,23 @@ Note: The FlowTracker2 date and time is stored as UTC along with an offset for l
 
     def OnMidShowBtn(self, event):
         if self.midsecImportPanel != None:
+            self.midsecImportPanel.Hide()
             self.form6Sizer.Remove(1)
-            del self.midsecImportPanel
             self.midsecImportPanel = None
-        self.midsecImportPanel = MidsectionImport(self.midsecMeasurements.header, self.form6, style=wx.SIMPLE_BORDER, size=(920, -1))
+        self.midsecImportPanel = MidsectionImportPanel(self.midsecMeasurements.header, self.form6, style=wx.SIMPLE_BORDER, size=(920, -1))
         self.form6Sizer.Add(self.midsecImportPanel, 1, wx.EXPAND)
         self.Layout()
         self.Refresh()
 
 
+    # def OnMidRemoveBtn(self, event):
+        # print("on remove")
+        # if self.midsecImportPanel != None:
+            # self.midsecImportPanel.Hide()
+            # self.form6Sizer.Remove(2)
+            # self.midsecImportPanel = None
+        # self.Layout()
+        # self.Refresh()
 
 
 
