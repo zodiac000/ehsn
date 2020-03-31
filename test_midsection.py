@@ -31,6 +31,14 @@ class MidsectionImport(wx.Panel):
         self.testLbl4 = "test label4"
         self.tipLbl = "velocity:       111 m\narea:        222 m^2\nsomething:   1234 u"
         self.tipLbl2 = "velocity:       999 m\narea:        888 m^2\nsomething:   7777 u"
+        self.tooltipTxt = """
+Vertical:               {}
+---------------------------------------------
+Velocity:              {}m/s
+Area:                   {} m^2
+Discharge:           {} m^3/s
+Discharge(q/Q):   {}%
+"""
 
 
         self.InitUI()
@@ -64,10 +72,10 @@ class MidsectionImport(wx.Panel):
         if self.midsecHeader != None:
             self.midsectionHeader, self.fig, self.ax, self.tags, self.depths, self.tagmarkLineList, self.depthTagList, \
                     self.depthList = self.midsecHeader.GeneratePlot()
-            self.annot = self.ax.annotate("_anno_", xy=(20,0.8), xytext=(50,50),textcoords="offset points", \
+            self.annot = self.ax.annotate("", xy=(0, 0), xytext=(1, 1),textcoords="offset points", \
                     bbox=dict(boxstyle="round", fc="w"),
-                    arrowprops=dict(arrowstyle="->"))
-            self.annot.set_visible(True)
+                    arrowprops=dict(arrowstyle="-"))
+            self.annot.set_visible(False)
 
             self.canvas = FigureCanvas(self.canvasPanel, -1, self.fig)
             self.fig.canvas.mpl_connect('button_press_event', self.onMouseClickAx2)
@@ -226,8 +234,15 @@ class MidsectionImport(wx.Panel):
         if event.inaxes == self.ax:
             x, y = event.xdata, event.ydata
             self.midsecHeader.Fill_ax2_light(x, y, self.tags, self.depths, self.tagmarkLineList, self.depthTagList, self.depthList)
+            self.updateAnnot((x,y), self.tooltipTxt.format(18, 0.1, 0.2, 0.3, 0.4))
+            self.annot.set_visible(True)
+            self.fig.canvas.draw_idle()
             self.Layout()
             self.Refresh()
+        else:
+            self.annot.set_visible(False)
+            self.fig.canvas.draw_idle()
+
             # print("{}, {}".format(x, y))
             
     def onMouseClickAx2(self, event):
@@ -240,6 +255,11 @@ class MidsectionImport(wx.Panel):
             # print("{}, {}".format(x, y))
             # print("ax: {}".format(self.ax))
             
+            
+    def updateAnnot(self, pos, text):
+        x, y = pos
+        self.annot.xy = (x-1, y)
+        self.annot.set_text(text)
 
 
     def onMouseClickPlt(self, event):
