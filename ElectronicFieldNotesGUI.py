@@ -27,7 +27,7 @@ from ConfigParser import SafeConfigParser
 from ZoomPanel import *
 # from RemarksPanel import *
 
-from test_midsection import MidsectionImportPanel
+from MidsectionImportPanel import MidsectionImportPanel
 
 
 
@@ -684,19 +684,18 @@ Note: The FlowTracker2 date and time is stored as UTC along with an offset for l
 
 
         #Imported Midsection page
-        self.form6Sizer = wx.BoxSizer(wx.VERTICAL)
-        self.form6 = SpecialScrolledPanel(self.layout, style=wx.SIMPLE_BORDER)
-        self.form6.SetupScrolling()
-        self.midsecImportPanel = None
-        self.showBtn = wx.Button(self.form6, label="Show / Refresh", size=(200, -1))
-        self.showBtn.Bind(wx.EVT_BUTTON, self.OnMidShowBtn)
+        # self.form6Sizer = wx.BoxSizer(wx.VERTICAL)
+        # self.form6 = SpecialScrolledPanel(self.layout, style=wx.SIMPLE_BORDER)
+        # self.form6.SetupScrolling()
+        # self.midsecImportPanel = None
+        # self.showBtn = wx.Button(self.form6, label="Show / Refresh", size=(200, -1))
+        # self.showBtn.Bind(wx.EVT_BUTTON, self.OnMidShowBtn)
 
         # self.removeBtn = wx.Button(self.form6, label="Remove")
         # self.removeBtn.Bind(wx.EVT_BUTTON, self.OnMidRemoveBtn)
 
-        self.form6Sizer.Add(self.showBtn, 0, wx.EXPAND)
-        # self.form6Sizer.Add(self.removeBtn, 0, wx.EXPAND)
-        self.form6.SetSizerAndFit(self.form6Sizer)
+        # self.form6Sizer.Add(self.showBtn, 0, wx.EXPAND)
+        # self.form6.SetSizerAndFit(self.form6Sizer)
 
 
         self.layout.AddPage(self.form, "Front Page")
@@ -704,7 +703,7 @@ Note: The FlowTracker2 date and time is stored as UTC along with an offset for l
         self.layout.AddPage(self.form3, "Moving Boat")
         self.layout.AddPage(self.form4, "Mid-Section")
         self.layout.AddPage(self.form5, "Field Review")
-        self.layout.AddPage(self.form6, "Imported Mid-Section")
+        # self.layout.AddPage(self.form6, "Imported Mid-Section")
         # self.layout.AddPage(form6, "User Config")
         self.layout.Show(True)
         self.Show(True)
@@ -3130,15 +3129,15 @@ Note: The FlowTracker2 date and time is stored as UTC along with an offset for l
 
 
 
-    def OnMidShowBtn(self, event):
-        if self.midsecImportPanel != None:
-            self.midsecImportPanel.Hide()
-            self.form6Sizer.Remove(1)
-            self.midsecImportPanel = None
-        self.midsecImportPanel = MidsectionImportPanel(self.midsecMeasurements.header, self.form6, style=wx.SIMPLE_BORDER, size=(920, -1))
-        self.form6Sizer.Add(self.midsecImportPanel, 1, wx.EXPAND)
-        self.Layout()
-        self.Refresh()
+    # def OnMidShowBtn(self, event):
+        # if self.midsecImportPanel != None:
+            # self.midsecImportPanel.Hide()
+            # self.form6Sizer.Remove(1)
+            # self.midsecImportPanel = None
+        # self.midsecImportPanel = MidsectionImportPanel(self.midsecMeasurements.header, self.form6, style=wx.SIMPLE_BORDER, size=(920, -1))
+        # self.form6Sizer.Add(self.midsecImportPanel, 1, wx.EXPAND)
+        # self.Layout()
+        # self.Refresh()
 
 
     # def OnMidRemoveBtn(self, event):

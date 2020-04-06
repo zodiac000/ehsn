@@ -16,6 +16,7 @@ from DropdownTime import *
 import NumberControl
 from MidSectionSubPanelObj import *
 from MidSectionTransferFrame import *
+from MidsectionImportPanel import MidsectionImportPanel
 
 from pdb import set_trace
 
@@ -410,18 +411,31 @@ class MidSectionHeader(wx.Panel):
         self.CalculateSummary()
 
     def OnPlot(self, event):
-        self.plotBtn.Disable()
-        # self.GeneratePlot()
-        try:
-            self.GeneratePlot()
+        # try:
+            # self.GeneratePlot()
+
+            summaryPanel = self.GetParent()
+            summarySizer = summaryPanel.GetSizer()
+            if summaryPanel.plot != None:
+                summaryPanel.plot.Hide()
+                summarySizer.Remove(2)
+                summaryPanel.plot = None
+            summaryPanel.plot = MidsectionImportPanel(summaryPanel, style=wx.SIMPLE_BORDER, size=(920, -1))
+            summarySizer.Add(summaryPanel.plot, 0, wx.EXPAND)
+            summaryPanel.GetParent().GetParent().Layout()
+            summaryPanel.GetParent().GetParent().Refresh()
+
             self.plotBtn.Enable()
-        except Exception as e:
-            print str(e)
-            exc_type, exc_obj, exc_tb = sys.exc_info()
-            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            print(exc_type, fname, exc_tb.tb_lineno)
-            self.plotBtn.Enable()
-        event.Skip()
+            self.GetParent().GetPlotPanel().Layout()
+            self.GetParent().GetPlotPanel().Refresh()
+        # except Exception as e:
+            # print str(e)
+            # exc_type, exc_obj, exc_tb = sys.exc_info()
+            # fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            # print(exc_type, fname, exc_tb.tb_lineno)
+            # self.plotBtn.Enable()
+        # self.plotBtn.Disable()
+        # event.Skip()
 
     def GeneratePlot(self, cursorX=0, cursorY=0):
 
@@ -650,6 +664,7 @@ class MidSectionHeader(wx.Panel):
         else:
             aY = y
             aDepthList = depthList
+        # set_trace()
         aTuples = sorted(list(set(zip(aTagmarkLineList, aY) + zip(aDepthTagList, aDepthList))), \
                                                     key=lambda x: x[0])
         unpackTuples = zip(*aTuples)
@@ -721,7 +736,7 @@ class MidSectionHeader(wx.Panel):
         # plt.show()
         self.plotBtn.Enable(True)
 
-        return self, fig, self.ax[1], tags, depths, tagmarkLineList, depthTagList, depthList
+        return fig, self.ax[1], tags, depths, tagmarkLineList, depthTagList, depthList
 
     #Refill ax2 with light color
     def fill_ax2_mouse_over(self, cursorX, cursorY, tags, depths, tagmarkLineList, depthTagList, depthList):
@@ -735,7 +750,6 @@ class MidSectionHeader(wx.Panel):
                     if ((tags[index] in tagmarkLineList and self.savedIndex != index) or (tags[index] not in tagmarkLineList and self.savedIndex != index - 1)):
                         #first panel
                         if index == 0:
-                            print("case 1")
                             lns3_cursor = self.ax[1].fill_between(np.array(tags[:2]),np.array(depths[:2]), facecolor=self.color_cursor, edgecolor=self.color_cursor, label="River Body")
                             lns3_body1 = self.ax[1].fill_between(np.array(tags[1:self.savedIndex+1]),np.array(depths[1:self.savedIndex+1]), facecolor=self.color_body, edgecolor=self.color_body, label="River Body")
                             if depths[self.savedIndex] == 0 or depths[self.savedIndex+1] == 0:
@@ -745,7 +759,6 @@ class MidSectionHeader(wx.Panel):
                             lns3_body2 = self.ax[1].fill_between(np.array(tags[self.savedIndex+2:]),np.array(depths[self.savedIndex+2:]), facecolor=self.color_body, edgecolor=self.color_body, label="River Body")
                         #last panel
                         elif index == len(tags) - 2:
-                            print("case 2")
                             lns3_body1 = self.ax[1].fill_between(np.array(tags[:self.savedIndex+1]),np.array(depths[:self.savedIndex+1]), facecolor=self.color_body, edgecolor=self.color_body, label="River Body")
                             if depths[self.savedIndex] == 0 or depths[self.savedIndex+1] == 0:
                                 lns3_saved = self.ax[1].fill_between(np.array(tags[self.savedIndex:self.savedIndex+2]),np.array(depths[self.savedIndex:self.savedIndex+2]), facecolor=self.color_saved, edgecolor=self.color_saved, label="River Body")
@@ -757,7 +770,6 @@ class MidSectionHeader(wx.Panel):
                         #on the tagmark line
                         elif tag in tagmarkLineList:
                             if depths[index] == 0 or depths[index+1] == 0:
-                                print("case 3")
                                 if depths[self.savedIndex] == 0 or depths[self.savedIndex+1] == 0:
                                     if index < self.savedIndex:
                                         lns3_body1 = self.ax[1].fill_between(np.array(tags[:index+1]),np.array(depths[:index+1]), facecolor=self.color_body, edgecolor=self.color_body, label="River Body")
@@ -785,7 +797,6 @@ class MidSectionHeader(wx.Panel):
                                         lns3_cursor = self.ax[1].fill_between(np.array(tags[index:index+2]),np.array(depths[index:index+2]), facecolor=self.color_cursor, edgecolor=self.color_cursor, label="River Body")
                                         lns3_body3 = self.ax[1].fill_between(np.array(tags[index+1:]),np.array(depths[index+1:]), facecolor=self.color_body, edgecolor=self.color_body, label="River Body")
                             else:
-                                print("case 4")
                                 if depths[self.savedIndex] == 0 or depths[self.savedIndex+1] == 0:
                                     if index < self.savedIndex:
                                         lns3_body1 = self.ax[1].fill_between(np.array(tags[:index+1]),np.array(depths[:index+1]), facecolor=self.color_body, edgecolor=self.color_body, label="River Body")
@@ -815,7 +826,6 @@ class MidSectionHeader(wx.Panel):
                         #on the mearsurement point
                         else:
                             if depths[self.savedIndex] == 0 or depths[self.savedIndex+1] == 0:
-                                print("case 5")
                                 if index < self.savedIndex:
                                     lns3_body1 = self.ax[1].fill_between(np.array(tags[:index]),np.array(depths[:index]), facecolor=self.color_body, edgecolor=self.color_body, label="River Body")
                                     lns3_cursor = self.ax[1].fill_between(np.array(tags[index-1:index+2]),np.array(depths[index-1:index+2]), facecolor=self.color_cursor, edgecolor=self.color_cursor, label="River Body")
@@ -829,7 +839,6 @@ class MidSectionHeader(wx.Panel):
                                     lns3_cursor = self.ax[1].fill_between(np.array(tags[index-1:index+2]),np.array(depths[index-1:index+2]), facecolor=self.color_cursor, edgecolor=self.color_cursor, label="River Body")
                                     lns3_body3 = self.ax[1].fill_between(np.array(tags[index+1:]),np.array(depths[index+1:]), facecolor=self.color_body, edgecolor=self.color_body, label="River Body")
                             else:
-                                print("case 6")
                                 if index < self.savedIndex:
                                     lns3_body1 = self.ax[1].fill_between(np.array(tags[:index]),np.array(depths[:index]), facecolor=self.color_body, edgecolor=self.color_body, label="River Body")
                                     lns3_cursor = self.ax[1].fill_between(np.array(tags[index-1:index+2]),np.array(depths[index-1:index+2]), facecolor=self.color_cursor, edgecolor=self.color_cursor, label="River Body")
@@ -845,7 +854,7 @@ class MidSectionHeader(wx.Panel):
 
                     #cursor on the highlighted panel
                     else:
-                        lns3_body1 = self.ax[1].fill_between(np.array(tags[:self.savedIndex]),np.array(depths[:self.savedIndex]), facecolor=self.color_body, edgecolor=self.color_body, label="River Body")
+                        lns3_body1 = self.ax[1].fill_between(np.array(tags[:self.savedIndex+1]),np.array(depths[:self.savedIndex+1]), facecolor=self.color_body, edgecolor=self.color_body, label="River Body")
                         if depths[self.savedIndex] == 0 or depths[self.savedIndex+1] == 0:
                             lns3_cursor = self.ax[1].fill_between(np.array(tags[self.savedIndex:self.savedIndex+2]),np.array(depths[self.savedIndex:self.savedIndex+2]), facecolor=self.color_saved, edgecolor=self.color_saved, label="River Body")
                             lns3_body2 = self.ax[1].fill_between(np.array(tags[self.savedIndex+1:]),np.array(depths[self.savedIndex+1:]), facecolor=self.color_body, edgecolor=self.color_body, label="River Body")
@@ -857,14 +866,13 @@ class MidSectionHeader(wx.Panel):
 
             #no savedIndex 
             else:
-                if tags[index] < cursorX < tags[index+1] and (cursorY < depths[index] or cursorY < depths[index+1]):
+                if tags[index] <= cursorX < tags[index+1] and (cursorY <= depths[index] or cursorY < depths[index+1]):
                     #first panel
                     if index == 0:
                         lns3_cursor = self.ax[1].fill_between(np.array(tags[:2]),np.array(depths[:2]), facecolor=self.color_cursor, edgecolor=self.color_cursor, label="River Body")
                         lns3_body = self.ax[1].fill_between(np.array(tags[index+1:]),np.array(depths[1:]), facecolor=self.color_body, edgecolor=self.color_body, label="River Body")
                     #last panel
                     elif index == len(tags) - 2:
-                        print("case 2")
                         lns3_body = self.ax[1].fill_between(np.array(tags[:-1]),np.array(depths[:-1]), facecolor=self.color_body, edgecolor=self.color_body, label="River Body")
                         lns3_cursor = self.ax[1].fill_between(np.array(tags[-2:]),np.array(depths[-2:]), facecolor=self.color_cursor, edgecolor=self.color_cursor, label="River Body")
                     #on the tagmark line
@@ -888,9 +896,22 @@ class MidSectionHeader(wx.Panel):
 
 
     #Refill ax2 with dark color
-    def fill_ax2_click(self, cursorX, cursorY, tags, depths, tagmarkLineList, depthTagList, depthList):
+    def fill_ax2_click(self, cursorX, cursorY, tags, depths, tagmarkLineList, depthTagList, depthList, end=False):
+        if cursorX == tags[-1]:
+            lns3_body = self.ax[1].fill_between(np.array(tags[:-1]),np.array(depths[:-1]), facecolor=self.color_body, edgecolor=self.color_body, label="River Body")
+            lns3_saved = self.ax[1].fill_between(np.array(tags[-2:]),np.array(depths[-2:]), facecolor=self.color_saved, edgecolor=self.color_saved, label="River Body")
+            return 
+
         for index, tag in enumerate(tags[:-1]):
-            if tags[index] < cursorX < tags[index+1] and (cursorY < depths[index] or cursorY < depths[index+1]):
+            if tags[index] <= cursorX < tags[index+1] and (cursorY <= depths[index] or cursorY < depths[index+1]):
+                if end:
+                    lns3_body1 = self.ax[1].fill_between(np.array(tags[:index]),np.array(depths[:index]), facecolor=self.color_body, edgecolor=self.color_body, label="River Body")
+                    lns3_saved = self.ax[1].fill_between(np.array(tags[index-1:index+1]),np.array(depths[index-1:index+1]), facecolor=self.color_saved, edgecolor=self.color_saved, label="River Body")
+                    lns3_body2 = self.ax[1].fill_between(np.array(tags[index+1:]),np.array(depths[index+1:]), facecolor=self.color_body, edgecolor=self.color_body, label="River Body")
+                    return
+
+        for index, tag in enumerate(tags[:-1]):
+            if tags[index] <= cursorX < tags[index+1] and (cursorY <= depths[index] or cursorY < depths[index+1]):
                 if tags[index] in tagmarkLineList:
                     self.savedIndex = index
                 else:
@@ -902,7 +923,11 @@ class MidSectionHeader(wx.Panel):
                     lns3_body = self.ax[1].fill_between(np.array(tags[:-1]),np.array(depths[:-1]), facecolor=self.color_body, edgecolor=self.color_body, label="River Body")
                     lns3_saved = self.ax[1].fill_between(np.array(tags[-2:]),np.array(depths[-2:]), facecolor=self.color_saved, edgecolor=self.color_saved, label="River Body")
                 elif tag in tagmarkLineList:
-                    if depths[index] == 0 or depths[index+1] == 0:
+                    if depths[index+2] == 0 and depths[index+1] == 0:
+                        lns3_body1 = self.ax[1].fill_between(np.array(tags[:index+1]),np.array(depths[:index+1]), facecolor=self.color_body, edgecolor=self.color_body, label="River Body")
+                        lns3_saved = self.ax[1].fill_between(np.array(tags[index:index+2]),np.array(depths[index:index+2]), facecolor=self.color_saved, edgecolor=self.color_saved, label="River Body")
+                        lns3_body2 = self.ax[1].fill_between(np.array(tags[index+1:]),np.array(depths[index+1:]), facecolor=self.color_body, edgecolor=self.color_body, label="River Body")
+                    elif depths[index] == 0 and depths[index-1] == 0:
                         lns3_body1 = self.ax[1].fill_between(np.array(tags[:index+1]),np.array(depths[:index+1]), facecolor=self.color_body, edgecolor=self.color_body, label="River Body")
                         lns3_saved = self.ax[1].fill_between(np.array(tags[index:index+2]),np.array(depths[index:index+2]), facecolor=self.color_saved, edgecolor=self.color_saved, label="River Body")
                         lns3_body2 = self.ax[1].fill_between(np.array(tags[index+1:]),np.array(depths[index+1:]), facecolor=self.color_body, edgecolor=self.color_body, label="River Body")
@@ -915,7 +940,7 @@ class MidSectionHeader(wx.Panel):
                     lns3_saved = self.ax[1].fill_between(np.array(tags[index-1:index+2]),np.array(depths[index-1:index+2]), facecolor=self.color_saved, edgecolor=self.color_saved, label="River Body")
                     lns3_body2 = self.ax[1].fill_between(np.array(tags[index+1:]),np.array(depths[index+1:]), facecolor=self.color_body, edgecolor=self.color_body, label="River Body")
 
-                break
+                return
 
 
     def CalculateSlop(self, x1, y1, x2, y2):

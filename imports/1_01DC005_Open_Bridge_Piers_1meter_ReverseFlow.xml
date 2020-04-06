@@ -5,12 +5,12 @@
 		<enteredInHWS>False</enteredInHWS>
 	</TitleHeader>
 	<GenInfo>
-		<station number="05LJ045">WILSON RIVER NEAR ASHVILLE</station>
+		<station number="01DC005">WILSON RIVER NEAR ASHVILLE</station>
 		<date timezone="CST">2019/03/15</date>
 	</GenInfo>
 	<StageMeas>
 		<HgCkbox>False</HgCkbox>
-		<Hg2Ckbox>False</Hg2Ckbox>
+		<Hg2Ckbox>False</Hg2Ckbox>S
 		<Wlr1Ckbox>False</Wlr1Ckbox>
 		<Wlr2Ckbox>False</Wlr2Ckbox>
 		<HG1Header/>
