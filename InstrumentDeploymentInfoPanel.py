@@ -1029,7 +1029,6 @@ class InstrumentDeploymentInfoPanel(wx.Panel):
                 self.UpdateComboBox(self.modelCmbo, self.modelList1)
                 self.UpdateComboBox(self.instrumentCmbo, ['ADCP'])
                 self.instrumentCmbo.SetValue('ADCP')
-                self.OnChangeUpdateMovingBoat()
                 if self.manager is not None:
                     if self.manager.manager is not None:
                         self.manager.manager.FlatNoteBook.GetPage(2).Enable(True)
@@ -1052,6 +1051,7 @@ class InstrumentDeploymentInfoPanel(wx.Panel):
         self.OnChangeUpdateMovingBoat()
         self.RefreshDeploymentMethod()
         self.manager.manager.gui.Layout()
+
 
 
     # Updates the dropdown with the given lis
@@ -1295,8 +1295,6 @@ class InstrumentDeploymentInfoPanel(wx.Panel):
 
 
     def OnInstrumentChange(self, event):
-
-
         if self.instrumentCmbo.GetValue() == 'ADCP':
             self.UpdateComboBox(self.modelCmbo, self.modelList1)
             self.EnableAdcpInfo(True)
@@ -1306,6 +1304,7 @@ class InstrumentDeploymentInfoPanel(wx.Panel):
                 self.EnableMidsectionInfo(True)
             if self.manager.manager.frChecklistManager.midsecType != 'ADCP':
                 self.manager.OnInstrumentChange(3)
+                # self.manager.manager.frChecklistManager.gui.changeDepType('ADCP')
 
         elif self.instrumentCmbo.GetValue() == 'ADV':
             self.UpdateComboBox(self.modelCmbo, self.modelList3)
