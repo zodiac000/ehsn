@@ -420,8 +420,8 @@ class MidSectionHeader(wx.Panel):
                 summaryPanel.plot.Hide()
                 summarySizer.Remove(2)
                 summaryPanel.plot = None
-            summaryPanel.plot = MidsectionImportPanel(summaryPanel, style=wx.SIMPLE_BORDER, size=(920, -1))
-            summarySizer.Add(summaryPanel.plot, 0, wx.EXPAND)
+            summaryPanel.plot = MidsectionImportPanel(summaryPanel, style=wx.SIMPLE_BORDER, size=(850,300))
+            summarySizer.Add(summaryPanel.plot, 0)
             summaryPanel.GetParent().GetParent().Layout()
             summaryPanel.GetParent().GetParent().Refresh()
 
@@ -678,7 +678,7 @@ class MidSectionHeader(wx.Panel):
         labels=["Discharge(q/Q%)","Velocity","River Body","Ice","Slush Ice","Obsevation Points","Panel Boundary"]
 
 
-        self.ax[1].legend(lns,labels,prop={'size':9}, loc='lower left', numpoints=1, borderaxespad=0.)
+        self.ax[1].legend(lns,labels,prop={'size':5}, loc='lower left', numpoints=1, borderaxespad=0.)
 
         lns7.set_visible(False)
 

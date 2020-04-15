@@ -21,14 +21,14 @@ class MidSectionMeasurementsPanel(wx.Panel):
         self.SetSizer(layout)
 
         self.header = MidSectionHeader(self.mode, self)
-        self.table = MidSectionSummaryTable(self)
+        self.table = MidSectionSummaryTable(self, size=(800,300))
         # self.plot = MidsectionImportPanel(parent=self)
         self.plot = None
         # self.plot.Hide()
 
 
         layout.Add(self.header, 1, wx.EXPAND)
-        layout.Add(self.table, 0, wx.EXPAND|wx.ALL)
+        layout.Add(self.table, 0, wx.EXPAND|wx.BOTTOM, 20)
         # layout.Add(self.plot, 0, wx.EXPAND|wx.ALL)
 
 

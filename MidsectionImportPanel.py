@@ -10,8 +10,9 @@ from pdb import set_trace
 import matplotlib.pyplot as plt
 import numpy as np
 import mpld3
+from wx.lib.scrolledpanel import ScrolledPanel
 
-class MidsectionImportPanel(wx.Panel):
+class MidsectionImportPanel(ScrolledPanel):
     def __init__(self, *args, **kwargs):
         super(MidsectionImportPanel, self).__init__(*args, **kwargs)
         self.headerLbl = "Header"
@@ -29,12 +30,13 @@ Area:                   {} m^2
 Discharge:           {} m^3/s
 Discharge(q/Q):   {}%
 """
-        self.width = 1200
+        self.width = 800
 
         self.InitUI()
 
 
     def InitUI(self):
+        self.SetupScrolling()
         self.fig = None
         self.ax2 = None
         self.tags = None
@@ -185,7 +187,7 @@ Discharge(q/Q):   {}%
         if midsecHeader != None:
             self.fig, self.ax2, self.tags, self.depths, self.tagmarkLineList, self.depthTagList, \
                     self.depthList = midsecHeader.GeneratePlot()
-            self.annot = self.ax2.annotate("", xy=(0, 0), xytext=(1, 1),textcoords="offset points", \
+            self.annot = self.ax2.annotate("", xy=(0, 0), xytext=(1, -45),textcoords="offset points", \
                     bbox=dict(boxstyle="round", fc="w"),
                     arrowprops=dict(arrowstyle="-"))
             self.annot.set_visible(False)
@@ -196,7 +198,7 @@ Discharge(q/Q):   {}%
             self.canvaSizerV.Add(self.canvas, 0, wx.EXPAND)
 
         # self.panel2SizerH.Add((20, -1), 0, wx.EXPAND)
-        self.panel2SizerH.Add(self.canvasPanel, 0, wx.EXPAND)
+        self.panel2SizerH.Add(self.canvasPanel, 0, wx.EXPAND|wx.LEFT, 20)
 
 
 
@@ -266,36 +268,30 @@ Discharge(q/Q):   {}%
             #hightlight plot
             midsecHeader = self.GetParent().header
             midsecHeader.fill_ax2_click(x, y, self.tags, self.depths, self.tagmarkLineList, self.depthTagList, self.depthList)
-            
 
             #highlight table
             sumTablePanel = self.GetParent().GetSumTablePanel()
             sumTable = sumTablePanel.GetSumTable()
-            # set_trace()
-            sumTablePanel.panelObjs
-            rowIdx = -1
-            for idx, depthTag in enumerate(self.depthTagList[:-1]):
-                if depthTag <= x < self.depthTagList[idx+1]:
-                    rowIdx = idx
-            if rowIdx != -1:
-                sumTable.SelectRow(rowIdx)
-            self.Layout()
-            self.Refresh()
 
+            increasingPolority = sumTablePanel.increasingPolority
             for i in range(sumTable.GetNumberRows()):
                 name = sumTable.GetCellValue(i, 0)
                 try:
                     tag = float(sumTable.GetCellValue(i, 1))
                     width = float(sumTable.GetCellValue(i, 2))
                     if "Start E" in name or "End P" in name:
-                        if tag <= x < tag+width:
+                        if ((increasingPolority and tag <= x < tag+width) or 
+                            (not increasingPolority and tag >= x > tag-width)):
                             sumTable.SelectRow(i)
                             return
+
                     elif "End E" in name or "Start P" in name:
-                        if tag-width <= x < tag:
-                            sumTable.SelectRow(i)
-                            return
-                    elif tag-width/2 <= x < tag+width/2:
+                        if ((increasingPolority and tag >= x > tag-width) or 
+                            (not increasingPolority and tag <= x < tag+width)):
+                                sumTable.SelectRow(i)
+                                return
+
+                    elif tag-width/2 <= x < tag+width/2: 
                         sumTable.SelectRow(i)
                         try:
                             float(sumTable.GetCellValue(i+1, 2))
@@ -351,7 +347,6 @@ Discharge(q/Q):   {}%
         obj = event.GetEventObject()
         obj.SetForegroundColour('Red')
         obj.SetFont(self.font2)
-        print('on right down')
         obj.Refresh()
         event.Skip()
 

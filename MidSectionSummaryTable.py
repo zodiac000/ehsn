@@ -6,6 +6,7 @@ import sigfig
 from wx.grid import *
 from MidSectionSubPanel import *
 from MidSectionSubPanelObj import *
+from wx.lib.scrolledpanel import ScrolledPanel
 
 import win32gui
 from pdb import set_trace
@@ -13,7 +14,7 @@ from pdb import set_trace
 
 
 
-class MidSectionSummaryTable(wx.Panel):
+class MidSectionSummaryTable(ScrolledPanel):
     def __init__(self, *args, **kwargs):
         super(MidSectionSummaryTable, self).__init__(*args, **kwargs)
         self.channelLbl = "Channel Condition"
@@ -63,6 +64,7 @@ class MidSectionSummaryTable(wx.Panel):
 
     def InitUI(self):
         layout = wx.BoxSizer(wx.VERTICAL)
+        self.SetupScrolling()
         self.SetSizer(layout)
 
         self.summaryTable = Grid(self)
