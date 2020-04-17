@@ -12,6 +12,7 @@ import datetime
 # import wx.ComboPopup as cb
 import NumberControl
 from DropdownTime import *
+from pdb import set_trace
 
 
 
@@ -123,6 +124,10 @@ class StageMeasurementsPanel(wx.Panel):
         self.incompleteDischargeTimeTitle = "Warning"
         self.stageLbl = "Stage Activity\nSummary Remarks"
         self.checkDischargeTime = True
+        self.readingTypeLbl = 'Reading\nType'
+        self.readingTypes = ['', 'Routine Before', 'Routine', 'Routine After', 'Reset-Before', 'Reset-After',
+                            'Cleaning-Before', 'Cleaning-After', 'After Calibration', 'Reference-Primary', 'Reference',
+                            'Extreme-Min', 'Extreme-Max']
 
         self.frame = self.GetParent()
         self.size = self.frame.GetSize()
@@ -441,7 +446,7 @@ be available in Aquarius, it is NOT uploaded from the Corrected M.G.H. field her
         srcAppLabelSizer = wx.BoxSizer(wx.HORIZONTAL)
         srcAppLabelPanel.SetSizer(srcAppLabelSizer)
 
-        srcAppTxt = wx.StaticText(srcAppLabelPanel, label=self.sensorResetAppTxtLbl, style=wx.ALIGN_CENTRE_HORIZONTAL, size=(self.colHeaderWidth, self.colHeaderHeight))
+        srcAppTxt = wx.StaticText(srcAppLabelPanel, label=self.sensorResetAppTxtLbl, style=wx.ALIGN_CENTRE_HORIZONTAL, size=(-1, self.colHeaderHeight))
         srcAppTxt.Wrap(self.wrapLength / 1.4)
         srcAppLabelSizer.Add(srcAppTxt, 1, wx.EXPAND)
 
@@ -457,7 +462,27 @@ be available in Aquarius, it is NOT uploaded from the Corrected M.G.H. field her
 
         self.srcAppColumnPanel.SetSizer(self.srcAppColumnSizerH)
 
+        #Reading Types
+        self.readingTypeColumnpanel = wx.Panel(self.measurementsScrollPanel, style=wx.BORDER_NONE)
+        readingTypeColumnSizer = wx.BoxSizer(wx.VERTICAL)
+        self.readingTypeColumnpanel.SetSizer(readingTypeColumnSizer)
 
+        #Create header panel
+        readingTypeHeaderSizer = wx.BoxSizer(wx.VERTICAL)
+        readingTypeHeaderPanel = wx.Panel(self.readingTypeColumnpanel, style=wx.SIMPLE_BORDER, size=(-1, self.colHeaderHeight))
+        readingTypeHeaderPanel.SetSizer(readingTypeHeaderSizer)
+
+        readingTypeTxt = wx.StaticText(readingTypeHeaderPanel, label=self.readingTypeLbl, style=wx.ALIGN_CENTRE_HORIZONTAL, size=(20, self.colHeaderHeight/2))
+        readingTypeHeaderSizer.Add(readingTypeTxt, 0, wx.EXPAND)
+
+        
+        #Create new panel and sizer for dynamic entries
+        self.readingTypeValPanel = wx.Panel(self.readingTypeColumnpanel, style=wx.SIMPLE_BORDER)
+        self.readingTypeValSizer = wx.BoxSizer(wx.VERTICAL)
+        self.readingTypeValPanel.SetSizer(self.readingTypeValSizer)
+
+        readingTypeColumnSizer.Add(readingTypeHeaderPanel, 0, wx.EXPAND)
+        readingTypeColumnSizer.Add(self.readingTypeValPanel, 0, wx.EXPAND)
 
         #MGH Aggregation Column
         self.mghAggColumnPanel = wx.Panel(self.measurementsScrollPanel, style=wx.BORDER_NONE)
@@ -486,19 +511,16 @@ be available in Aquarius, it is NOT uploaded from the Corrected M.G.H. field her
 
 
 
-
-
-
-
         #Add all panels to measurementsSizer
         self.measurementsSizer.Add(self.entryColumnPanel, 0, wx.EXPAND)
         self.measurementsSizer.Add(self.timeColumnSizer, 0, wx.EXPAND)
-        self.measurementsSizer.Add(self.stageColumnPanel, 5, wx.EXPAND)
-        self.measurementsSizer.Add(self.stageColumnPanel2, 5, wx.EXPAND)
-        self.measurementsSizer.Add(self.wlColumnPanel, 10, wx.EXPAND)
-        self.measurementsSizer.Add(self.srcColumnPanel, 5, wx.EXPAND)
-        self.measurementsSizer.Add(self.srcAppColumnPanel, 7, wx.EXPAND)
-        self.measurementsSizer.Add(self.mghAggColumnPanel, 4, wx.EXPAND)
+        self.measurementsSizer.Add(self.stageColumnPanel, 0, wx.EXPAND)
+        self.measurementsSizer.Add(self.stageColumnPanel2, 0, wx.EXPAND)
+        self.measurementsSizer.Add(self.wlColumnPanel, 0, wx.EXPAND)
+        self.measurementsSizer.Add(self.srcColumnPanel, 0, wx.EXPAND)
+        self.measurementsSizer.Add(self.srcAppColumnPanel, 0, wx.EXPAND)
+        self.measurementsSizer.Add(self.readingTypeColumnpanel, 0, wx.EXPAND)
+        self.measurementsSizer.Add(self.mghAggColumnPanel, 0, wx.EXPAND)
 
         self.measurementsSizerV.Add(self.measurementsSizer, 1, wx.EXPAND)
         self.measurementsScrollPanel.SetSizer(self.measurementsSizerV)
@@ -934,7 +956,14 @@ be available in Aquarius, it is NOT uploaded from the Corrected M.G.H. field her
 
         self.srcAppSizer.Add(srcApp, 1, wx.EXPAND|wx.BOTTOM|wx.TOP)
 
+        #Reading Type combobox
+        readingTypeComboPanel = wx.Panel(self.readingTypeValPanel, style=wx.SIMPLE_BORDER, name=otherName, size=(-1, self.rowHeight))
+        readingTypeComboSizer = wx.BoxSizer(wx.HORIZONTAL)
+        readingTypeComboPanel.SetSizer(readingTypeComboSizer)
+        readingTypeCmbo = wx.ComboBox(readingTypeComboPanel, choices=self.readingTypes, style=wx.CB_READONLY, size=(-1, self.colHeaderHeight/2))
+        readingTypeComboSizer.Add(readingTypeCmbo, 0 , wx.EXPAND)
 
+        self.readingTypeValSizer.Add(readingTypeComboPanel, 1, wx.EXPAND)
 
         #checkbox
         checkboxPanel = wx.Panel(self.mghAggValPanel, style=wx.SIMPLE_BORDER, name=otherName, size=(-1, self.rowHeight))
@@ -1041,6 +1070,12 @@ be available in Aquarius, it is NOT uploaded from the Corrected M.G.H. field her
         #MGH Agg
         self.mghAggValSizer.Hide(index)
         self.mghAggValSizer.Remove(index)
+
+        #reading type
+        self.readingTypeValSizer.Hide(index)
+        self.readingTypeValSizer.Remove(index)
+
+
 
         self.RefreshSRC()
 
@@ -1174,7 +1209,13 @@ be available in Aquarius, it is NOT uploaded from the Corrected M.G.H. field her
 
 
 
+        #Reading Type combobox
+        readingTypeComboPanel = wx.Panel(self.readingTypeValPanel, style=wx.SIMPLE_BORDER, name=otherName, size=(-1, self.rowHeight))
+        readingTypeComboSizer = wx.BoxSizer(wx.HORIZONTAL)
+        readingTypeComboPanel.SetSizer(readingTypeComboSizer)
+        readingTypeCmbo = wx.ComboBox(readingTypeComboPanel, choices=self.readingTypes, style=wx.CB_READONLY, size=(-1, self.colHeaderHeight/2))
 
+        self.readingTypeValSizer.Insert(index, readingTypeCmbo, 0, wx.EXPAND|wx.BOTTOM|wx.TOP)
 
 
         #checkbox
@@ -1272,6 +1313,10 @@ be available in Aquarius, it is NOT uploaded from the Corrected M.G.H. field her
                 child.GetWindow().SetName("%s" % index)
                 child.GetWindow().GetSizer().GetItem(1).GetWindow().SetName("%s" % index)
 
+        for index, child in enumerate(self.readingTypeValSizer.GetChildren()):
+            i = int(child.GetWindow().GetName())
+            if i != index:
+                child.GetWindow().SetName("%s" % index)
 
     def PrintNames(self):
         for child in self.entryColButtonSizer.GetChildren():
@@ -1290,6 +1335,8 @@ be available in Aquarius, it is NOT uploaded from the Corrected M.G.H. field her
             print "src col" + child.GetWindow().GetName()
         for child in self.srcAppSizer.GetChildren():
             print "srcApp col" + child.GetWindow().GetName()
+        for child in self.readingTypeValSizer.GetChildren():
+            print "readingType col" + child.GetWindow().GetName()
         for child in self.mghAggValSizer.GetChildren():
             print "MGH Agg col" + child.GetWindow().GetSizer().GetItem(1).GetWindow().GetName()
 
@@ -1522,7 +1569,6 @@ be available in Aquarius, it is NOT uploaded from the Corrected M.G.H. field her
         sizerItem.SetValue(val)
 
     #SRC Applied col
-
     def GetSrcAppSizer(self):
         return self.srcAppSizer
 
@@ -1559,8 +1605,29 @@ be available in Aquarius, it is NOT uploaded from the Corrected M.G.H. field her
 
         return self.GetMghAggSizer().GetItem(row).GetWindow().GetSizer().GetItem(1).GetWindow()
 
+    #reading typy sizer
+    def GetReadingTypeValSizer(self):
+        return self.readingTypeValSizer
 
+    def SetReadingTypeValSizer(self, readingTypeValSizer):
+        self.readingTypeValSizer = readingTypeValSizer
+        
+    #reading type
+    def GetReadingTypeVal(self, row):
+        maxrow = len(self.GetReadingTypeValSizer().GetChildren())
+        if row >= maxrow:
+            row = maxrow - 1
+        sizerItem = self.GetReadingTypeValSizer().GetItem(row).GetWindow().GetSizer().GetItem(0).GetWindow()
 
+        return sizerItem.GetValue()
+
+    def SetReadingTypeVal(self, row, val):
+        maxrow = len(self.GetReadingTypeValSizer().GetChildren())
+        if row >= maxrow:
+            row = maxrow - 1
+
+        sizerItem = self.GetReadingTypeValSizer().GetItem(row).GetWindow().GetSizer().GetItem(0).GetWindow()
+        sizerItem.SetValue(val)
 
     #Weight MGH x
     #MGH x HG
