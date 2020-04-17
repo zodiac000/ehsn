@@ -184,7 +184,7 @@ be available in Aquarius, it is NOT uploaded from the Corrected M.G.H. field her
         #Measurements Panel
         self.measurementsScrollPanel = scrolledpanel.ScrolledPanel(self, size=(-1, 200), style=wx.SIMPLE_BORDER|wx.VSCROLL)
         self.measurementsScrollPanel.SetupScrolling()
-        self.measurementsScrollPanel.ShowScrollbars(wx.SHOW_SB_NEVER, wx.SHOW_SB_ALWAYS)
+        # self.measurementsScrollPanel.ShowScrollbars(wx.SHOW_SB_NEVER, wx.SHOW_SB_ALWAYS)
 
         self.measurementsSizer = wx.BoxSizer(wx.HORIZONTAL)
         self.measurementsSizerV = wx.BoxSizer(wx.VERTICAL)
@@ -233,12 +233,6 @@ be available in Aquarius, it is NOT uploaded from the Corrected M.G.H. field her
         #Add all to the Time
         self.timeColumnSizer.Add(timeLabelPanel, 0, wx.EXPAND)
         self.timeColumnSizer.Add(self.timeValPanel, 0, wx.EXPAND)
-
-
-
-
-
-
 
 
 
@@ -355,9 +349,6 @@ be available in Aquarius, it is NOT uploaded from the Corrected M.G.H. field her
         self.bmLeft.Bind(wx.EVT_MOUSEWHEEL, self.do_nothing)
         
 
-
-
-
         self.bmLeft.Bind(wx.EVT_TEXT, self.OnTextType)
         self.bmLeft.Bind(wx.EVT_KEY_DOWN, self.OnTab)
         self.wlSublabelPanelLSizer.Add(self.bmLeft, 1, wx.EXPAND)
@@ -366,11 +357,6 @@ be available in Aquarius, it is NOT uploaded from the Corrected M.G.H. field her
 
         self.bmRight = wx.ComboBox(self.wlSublabelPanelR, choices=self.BMs, style=wx.CB_DROPDOWN, size=(self.colHeaderWidth + 10, self.colHeaderHeight/2))
         self.bmRight.Bind(wx.EVT_MOUSEWHEEL, self.do_nothing)
-
-
-        
-
-
 
 
         self.bmRight.Bind(wx.EVT_TEXT, self.OnTextType)
@@ -458,7 +444,7 @@ be available in Aquarius, it is NOT uploaded from the Corrected M.G.H. field her
 
         self.srcAppColumnSizer.Add(srcAppLabelPanel, 0, wx.EXPAND)
         self.srcAppColumnSizer.Add(self.srcAppPanel, 0, wx.EXPAND)
-        self.srcAppColumnSizerH.Add(self.srcAppColumnSizer, 1, wx.EXPAND)
+        self.srcAppColumnSizerH.Add(self.srcAppColumnSizer, 0, wx.EXPAND)
 
         self.srcAppColumnPanel.SetSizer(self.srcAppColumnSizerH)
 
@@ -951,16 +937,17 @@ be available in Aquarius, it is NOT uploaded from the Corrected M.G.H. field her
 
         #SRC Applied stuff
         # srcApp = wx.CheckBox(self.srcAppPanel, style=wx.TE_CENTRE, size=(self.colHeaderWidth, self.rowHeight), name=otherName)
-        srcApp = wx.ComboBox(self.srcAppPanel, choices=sorted(self.srcChoices), value=self.srcChoices[0], style=wx.CB_READONLY, size=(self.colHeaderWidth, self.rowHeight), name=otherName)
+        srcApp = wx.ComboBox(self.srcAppPanel, choices=sorted(self.srcChoices), value=self.srcChoices[0], style=wx.CB_READONLY, size=(120, self.rowHeight), name=otherName)
         srcApp.Bind(wx.EVT_MOUSEWHEEL, self.do_nothing)
 
-        self.srcAppSizer.Add(srcApp, 1, wx.EXPAND|wx.BOTTOM|wx.TOP)
+        # self.srcAppSizer.Add(srcApp, 1, wx.EXPAND|wx.BOTTOM|wx.TOP)
+        self.srcAppSizer.Add(srcApp, 0, wx.EXPAND)
 
         #Reading Type combobox
         readingTypeComboPanel = wx.Panel(self.readingTypeValPanel, style=wx.SIMPLE_BORDER, name=otherName, size=(-1, self.rowHeight))
         readingTypeComboSizer = wx.BoxSizer(wx.HORIZONTAL)
         readingTypeComboPanel.SetSizer(readingTypeComboSizer)
-        readingTypeCmbo = wx.ComboBox(readingTypeComboPanel, choices=self.readingTypes, style=wx.CB_READONLY, size=(-1, self.colHeaderHeight/2))
+        readingTypeCmbo = wx.ComboBox(readingTypeComboPanel, choices=self.readingTypes, style=wx.CB_READONLY, size=(110, self.colHeaderHeight/2))
         readingTypeComboSizer.Add(readingTypeCmbo, 0 , wx.EXPAND)
 
         self.readingTypeValSizer.Add(readingTypeComboPanel, 1, wx.EXPAND)
@@ -1201,11 +1188,11 @@ be available in Aquarius, it is NOT uploaded from the Corrected M.G.H. field her
 
         #SRC Applied stuff
         # srcApp = wx.CheckBox(self.srcAppPanel, style=wx.TE_CENTRE, size=(self.colHeaderWidth, self.rowHeight), name=otherName)
-        srcApp = wx.ComboBox(self.srcAppPanel, choices=self.srcChoices, value=self.srcChoices[0], style=wx.CB_READONLY, size=(self.colHeaderWidth, self.rowHeight), name=str(index))
+        srcApp = wx.ComboBox(self.srcAppPanel, choices=self.srcChoices, value=self.srcChoices[0], style=wx.CB_READONLY, size=(120, self.rowHeight), name=str(index))
         srcApp.Bind(wx.EVT_MOUSEWHEEL, self.do_nothing)
 
 
-        self.srcAppSizer.Insert(index, srcApp, 1, wx.EXPAND|wx.BOTTOM|wx.TOP)
+        self.srcAppSizer.Insert(index, srcApp, 1, wx.EXPAND)
 
 
 
@@ -1213,9 +1200,9 @@ be available in Aquarius, it is NOT uploaded from the Corrected M.G.H. field her
         readingTypeComboPanel = wx.Panel(self.readingTypeValPanel, style=wx.SIMPLE_BORDER, name=otherName, size=(-1, self.rowHeight))
         readingTypeComboSizer = wx.BoxSizer(wx.HORIZONTAL)
         readingTypeComboPanel.SetSizer(readingTypeComboSizer)
-        readingTypeCmbo = wx.ComboBox(readingTypeComboPanel, choices=self.readingTypes, style=wx.CB_READONLY, size=(-1, self.colHeaderHeight/2))
+        readingTypeCmbo = wx.ComboBox(readingTypeComboPanel, choices=self.readingTypes, style=wx.CB_READONLY, size=(110, self.colHeaderHeight/2))
 
-        self.readingTypeValSizer.Insert(index, readingTypeCmbo, 0, wx.EXPAND|wx.BOTTOM|wx.TOP)
+        self.readingTypeValSizer.Insert(index, readingTypeCmbo, 0, wx.EXPAND)
 
 
         #checkbox
