@@ -30,7 +30,7 @@ Area:                   {} m^2
 Discharge:           {} m^3/s
 Discharge(q/Q):   {}%
 """
-        self.width = 800
+        self.canvasSize = (200, 500)
 
         self.InitUI()
 
@@ -179,7 +179,7 @@ Discharge(q/Q):   {}%
 
         #plot
         self.panel2SizerH = wx.BoxSizer(wx.HORIZONTAL)
-        self.canvasPanel = wx.Panel(self, style=wx.SIMPLE_BORDER, size=(self.width, 500))
+        self.canvasPanel = wx.Panel(self, style=wx.SIMPLE_BORDER, size=self.canvasSize)
         self.canvaSizerV = wx.BoxSizer(wx.VERTICAL)
         self.canvasPanel.SetSizer(self.canvaSizerV)
 
@@ -198,7 +198,7 @@ Discharge(q/Q):   {}%
             self.canvaSizerV.Add(self.canvas, 0, wx.EXPAND)
 
         # self.panel2SizerH.Add((20, -1), 0, wx.EXPAND)
-        self.panel2SizerH.Add(self.canvasPanel, 0, wx.EXPAND|wx.LEFT, 20)
+        self.panel2SizerH.Add(self.canvasPanel, 1, wx.EXPAND|wx.LEFT, 20)
 
 
 

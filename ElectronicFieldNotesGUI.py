@@ -178,7 +178,7 @@ class EHSNGui(wx.Frame):
         self.fXmlDesc = 'Save the current eHSN field note as an XML file.'
         self.fSaveLabel = 'Save\tCtrl+S'
         self.fSaveDesc = 'Save the current eHSN field note as an XML file.'
-        self.fPdfLabel = 'Generate PDF - Complete Note\tCtrl+P'
+        self.fPdfLabel = 'Generate PDF - Booklet Type\tCtrl+P'
         self.fPdfDesc = 'Generate a PDF of the current field note in the same size format as previous paper field notes.'
         self.fPdfsLabel = "Generate PDF - Front Page Only"
         self.fPdfsDesc = "Generate a PDF of the front page of the current field note(good for providing to partners and clients)."
@@ -3126,8 +3126,6 @@ Note: The FlowTracker2 date and time is stored as UTC along with an offset for l
             self.uploadSaveDir = resetpath
             config.write(cfgfile)
             cfgfile.close()
-
-
 
     # def OnMidShowBtn(self, event):
         # if self.midsecImportPanel != None:

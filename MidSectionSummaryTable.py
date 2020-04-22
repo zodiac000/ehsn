@@ -88,7 +88,7 @@ class MidSectionSummaryTable(ScrolledPanel):
 
         self.summaryTable.SetColLabelSize(60)
 
-        self.summaryTable.SetRowLabelSize(40)
+        # self.summaryTable.SetRowLabelSize(40)
         self.summaryTable.HideRowLabels()
 
         #self.summaryTable.SetColFormatFloat(1, precision=3)
@@ -112,17 +112,17 @@ class MidSectionSummaryTable(ScrolledPanel):
         self.summaryTable.EnableEditing(False)
 
         self.summaryTable.AutoSize()
-        self.summaryTable.SetColSize(0, 60)
+        # self.summaryTable.SetColSize(0, 60)
 
 
 
         self.addBtn = wx.Button(self, label="+", size=(-1, -1))
         self.addBtn.Bind(wx.EVT_BUTTON, self.OnAdd)
-        layout.Add(self.summaryTable, 0, wx.EXPAND|wx.ALL, 20)
+        layout.Add(self.summaryTable, 1, wx.EXPAND|wx.ALL, 20)
         layout.Add(self.addBtn, 0, wx.ALL, 20)
-        # self.GetParent().GetParent().GetParent().GetParent().Bind(wx.EVT_SIZE, self.OnSize)
+        self.GetParent().GetParent().GetParent().GetParent().Bind(wx.EVT_SIZE, self.OnSize)
         self.subPanel = None
-
+    
 
     def OnSize(self, event):
         size = event.GetSize()
@@ -130,7 +130,7 @@ class MidSectionSummaryTable(ScrolledPanel):
         height = size.GetHeight()
 
         for col in range(14):
-            self.summaryTable.SetColSize(col, width/(14 + 2))
+            self.summaryTable.SetColSize(col, width/14-5)
 
         event.Skip()
 

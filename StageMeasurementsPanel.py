@@ -125,7 +125,7 @@ class StageMeasurementsPanel(wx.Panel):
         self.stageLbl = "Stage Activity\nSummary Remarks"
         self.checkDischargeTime = True
         self.readingTypeLbl = 'Reading\nType'
-        self.readingTypes = ['', 'Routine Before', 'Routine', 'Routine After', 'Reset-Before', 'Reset-After',
+        self.readingTypes = ['', 'Routine', 'Routine Before', 'Routine After', 'Reset-Before', 'Reset-After',
                             'Cleaning-Before', 'Cleaning-After', 'After Calibration', 'Reference-Primary', 'Reference',
                             'Extreme-Min', 'Extreme-Max']
 
@@ -186,7 +186,6 @@ be available in Aquarius, it is NOT uploaded from the Corrected M.G.H. field her
         self.measurementsScrollPanel = scrolledpanel.ScrolledPanel(self, size=(200, 200), style=wx.SIMPLE_BORDER|wx.VSCROLL)
         self.measurementsScrollPanel.SetupScrolling()
         # self.measurementsScrollPanel.SetMinSize((200,200))
-        print(self.measurementsScrollPanel.GetSize())
         # self.measurementsScrollPanel.ShowScrollbars(wx.SHOW_SB_NEVER, wx.SHOW_SB_ALWAYS)
 
         self.measurementsSizer = wx.BoxSizer(wx.HORIZONTAL)
