@@ -346,8 +346,8 @@ be available in Aquarius, it is NOT uploaded from the Corrected M.G.H. field her
         # wlHeaderLabelPanel.SetSizer(wlHeaderLabelSizer)
 
         # wlHeaderComboPanel = wx.Panel(wlHeaderPanel, style=wx.SIMPLE_BORDER)
-        wlHeaderComboSizer = wx.BoxSizer(wx.HORIZONTAL)
-        # wlHeaderComboPanel.SetSizer(wlHeaderComboSizer)
+        self.wlHeaderComboSizer = wx.BoxSizer(wx.HORIZONTAL)
+        # wlHeaderComboPanel.SetSizer(self.wlHeaderComboSizer)
 
         # wlHeaderSizer.Add(wlHeaderLabelPanel, 0, wx.EXPAND)
         # wlHeaderSizer.Add(wlHeaderComboPanel, 0, wx.EXPAND)
@@ -394,10 +394,10 @@ be available in Aquarius, it is NOT uploaded from the Corrected M.G.H. field her
         self.bmRight.Bind(wx.EVT_TEXT, self.OnTextType)
         self.bmRight.Bind(wx.EVT_KEY_DOWN, self.OnTab)
 
-        wlHeaderComboSizer.Add(self.bmLeft, 1, wx.EXPAND)
-        wlHeaderComboSizer.Add(self.bmRight, 1, wx.EXPAND)
+        self.wlHeaderComboSizer.Add(self.bmLeft, 1, wx.EXPAND)
+        self.wlHeaderComboSizer.Add(self.bmRight, 1, wx.EXPAND)
 
-        wlHeaderSizer.Add(wlHeaderComboSizer, 0, wx.EXPAND)
+        wlHeaderSizer.Add(self.wlHeaderComboSizer, 0, wx.EXPAND)
 
         self.wlColumnSizer.Add(wlHeaderPanel, 0, wx.EXPAND)
         self.wlColumnSizer.Add(wlValPanel, 0, wx.EXPAND)
@@ -1100,8 +1100,9 @@ be available in Aquarius, it is NOT uploaded from the Corrected M.G.H. field her
             items = []
         self.bmLeft.Append(items)
         self.bmRight.Append(items)
-        self.wlSublabelPanelLSizer.Layout()
-        self.wlSublabelPanelRSizer.Layout()
+        self.wlHeaderComboSizer.Layout()
+        # self.wlSublabelPanelLSizer.Layout()
+        # self.wlSublabelPanelRSizer.Layout()
         self.Update()
 
     #compare two times return True if the second time greater than the first

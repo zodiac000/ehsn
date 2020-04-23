@@ -1,0 +1,16 @@
+STATION,REFERENCE,ELEVATION,DESCRIPTION
+01DC005,ISRP 1,6.03,Paint Mark on well opening. BM HISTORY ANALYSIS 2011-2017. 
+01DC005,NS16-032,4.599,Brass plu 13 metres from gauge house mag bearing about 335 deg.BM HISTORY ANALYSIS 2011-2017.   
+01DC005,NS16-033,5.006,Brass plug 6.8 metres from gauge house mag bearing 62 deg.  BM HISTORY ANALYSIS 2011-2017. 
+01DC005,NS86-038*,6.391,Brass plug in bridge footing on the upstream, right bank side of bridge, about 40 metres from gauge house.BM HISTORY ANALYSIS 2011-2017. 
+01DC005,OSRP 2,0.611,End of intake pipe.
+01DC007,ISRP 1,5.163,Paint Mark on sill, lower lip used for ISWL.BM HISTORY ANALYSIS 2011-2017
+01DC007,NS86-35*,9.669,Brass plug set in left bank, downstream end of bridge rail at road level, 18.8m from gauge house mag bearing 145 deg.BM HISTORY ANALYSIS 2011-2017 
+01DC007,NS86-36,7.152,Brass plug in footing of bridge on downstream left bank footing, 15.4m from gauge house mag bearing 130 deg. BM HISTORY ANALYSIS 2011-2017
+01DC007,NS86-37,6.782, Brass Plug set in pipe above gnd level 8.8m, mag bearing 241 deg from gauge house. BM HISTORY ANALYSIS 2011-2017
+01DC007,OSRP 1,0.637,Top of intake pipe near shore. As at 2008, 1.2m from paint at rock edge. BM HISTORY ANALYSIS 2011-2017
+01DC007,NS19-006,3.976,WSC Cap on 2 rods located 1.5 m behind gauge.
+02KF015,BM O06-208,3.32,BRASS CAP LOCATED IN FLOOR OF GAUGE HOUSE.(FORMERLY NAMED BM STATION)
+02KF015,BM O87-204*,2.881,60M S.E. OF GAUGE ON WING WALL S.W. CONVER OF CULVERT AT RICHMOND ROAD AND GRAHAM CREEK(FORMERLY NAMED BM 87-1)
+02KF015,BM O87-206,1.475,49.5M N.W. OF GAUGE HOUSE ON S.E. CORNER OF CONCRETE CULVERT.(FORMERLY NAMED BM 87-3)
+02KF015,E.C.G.,4.287,ECG LOCATED IN GAUGE HOUSE
