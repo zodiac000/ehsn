@@ -44,6 +44,10 @@ Discharge(q/Q):   {}%
         self.tagmarkLineList = None
         self.depthTagList = None
         self.depthList = None
+        self.iceTagList = None
+        self.bottomIceList = None
+        self.slushTagList = None
+        self.bottomSlushList = None
 
         self.midsectionPanelSizerV = wx.BoxSizer(wx.VERTICAL)
         self.SetSizer(self.midsectionPanelSizerV)
@@ -185,11 +189,20 @@ Discharge(q/Q):   {}%
 
         midsecHeader = self.GetParent().header
         if midsecHeader != None:
-            self.fig, self.ax2, self.tags, self.depths, self.tagmarkLineList, self.depthTagList, \
-                    self.depthList = midsecHeader.GeneratePlot()
-            self.annot = self.ax2.annotate("", xy=(0, 0), xytext=(1, -45),textcoords="offset points", \
+            self.fig, \
+            self.ax2, \
+            self.tags, \
+            self.depths, \
+            self.tagmarkLineList, \
+            self.depthTagList, \
+            self.depthList, \
+            self.iceTagList, \
+            self.bottomIceList, \
+            self.slushTagList, \
+            self.bottomSlushList = midsecHeader.GeneratePlot()
+            self.annot = self.ax2.annotate("", xy=(0, 0), xytext=(40, -45),textcoords="offset points", \
                     bbox=dict(boxstyle="round", fc="w"),
-                    arrowprops=dict(arrowstyle="-"))
+                    arrowprops=dict(arrowstyle="Fancy"))
             self.annot.set_visible(False)
 
             self.canvas = FigureCanvas(self.canvasPanel, -1, self.fig)
@@ -212,8 +225,8 @@ Discharge(q/Q):   {}%
         if event.inaxes == self.ax2:
             x, y = event.xdata, event.ydata
             midsecHeader = self.GetParent().header
-            midsecHeader.fill_ax2_mouse_over(x, y, self.tags, self.depths, self.tagmarkLineList, self.depthTagList, self.depthList)
-
+            midsecHeader.fill_ax2_mouse_over(x, y, self.tags, self.depths, self.tagmarkLineList, self.depthTagList, self.depthList, 
+                                            self.iceTagList, self.bottomIceList, self.slushTagList, self.bottomSlushList)
 
             sumTablePanel = self.GetParent().GetSumTablePanel()
             sumTable = sumTablePanel.GetSumTable()
@@ -267,7 +280,8 @@ Discharge(q/Q):   {}%
             x, y = event.xdata, event.ydata
             #hightlight plot
             midsecHeader = self.GetParent().header
-            midsecHeader.fill_ax2_click(x, y, self.tags, self.depths, self.tagmarkLineList, self.depthTagList, self.depthList)
+            midsecHeader.fill_ax2_click(x, y, self.tags, self.depths, self.tagmarkLineList, self.depthTagList, self.depthList,
+                    self.iceTagList, self.bottomIceList, self.slushTagList, self.bottomSlushList)
 
             #highlight table
             sumTablePanel = self.GetParent().GetSumTablePanel()
@@ -372,7 +386,17 @@ Discharge(q/Q):   {}%
     def GetDepthList(self):
         return self.depthList
 
+    def GetIceTagList(self):
+        return self.iceTagList
 
+    def GetBottomIceList(self):
+        return self.bottomIceList
+
+    def GetSlushTagList(self):
+        return self.slushTagList
+
+    def GetBottomSlushList(self):
+        return self.bottomSlushList
 
 def main():
     app = wx.App()

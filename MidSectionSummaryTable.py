@@ -1144,9 +1144,13 @@ class MidSectionSummaryTable(ScrolledPanel):
                 tagmarkLineList = (plotPanel.GetTagmarkLineList())
                 depthTagList = (plotPanel.GetDepthTagList())
                 depthList = (plotPanel.GetDepthList())
+                iceTagList = (plotPanel.GetIceTagList())
+                bottomIceList = (plotPanel.GetBottomIceList())
+                slushTagList = (plotPanel.GetSlushTagList())
+                bottomSlushList = (plotPanel.GetBottomSlushList())
 
                 headerPanel = self.GetParent().GetHeaderPanel()
-                headerPanel.fill_ax2_click(tagmark, depth, tags, depths, tagmarkLineList, depthTagList, depthList, end)
+                headerPanel.fill_ax2_click(tagmark, depth, tags, depths, tagmarkLineList, depthTagList, depthList, iceTagList, bottomIceList, slushTagList, bottomSlushList, end)
                 self.GetParent().Layout()
                 self.GetParent().Refresh()
 

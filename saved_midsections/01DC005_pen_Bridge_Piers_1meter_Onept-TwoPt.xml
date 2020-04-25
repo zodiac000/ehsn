@@ -1471,7 +1471,7 @@
 							<DepthReading>0.17</DepthReading>
 							<DepthWithOffset>0.17</DepthWithOffset>
 							<Width>0.875</Width>
-							<AverageVelocity/>
+                            <AverageVelocity>0.1</AverageVelocity>
 							<Discharge/>
 							<PanelNum>23</PanelNum>
 							<Slop>0.6913</Slop>
