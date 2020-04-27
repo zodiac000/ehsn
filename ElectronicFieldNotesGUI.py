@@ -1097,7 +1097,8 @@ Note: The FlowTracker2 date and time is stored as UTC along with an offset for l
     #Save as PDF before uploading to AQ
     def SaveAsPDFAtUpload(self, path, success, xml):
         # Locate stylesheet based on stylesheet_path
-        found_stylesheet = os.path.exists(self.fullStyleSheetFilePath)
+        # found_stylesheet = os.path.exists(self.fullStyleSheetFilePath)
+        found_stylesheet = os.path.exists(self.viewStyleSheetFilePath)
 
         # If it exists, run fileSaveDialog
         # Else, run fileOpenDialog, then fileSaveDialog
@@ -1121,7 +1122,8 @@ Note: The FlowTracker2 date and time is stored as UTC along with an offset for l
                     print "styleSheetPath exp"
                     print styleSheetPath
                 if styleSheetPath != "":
-                    self.fullStyleSheetFilePath = styleSheetPath
+                    # self.fullStyleSheetFilePath = styleSheetPath
+                    self.viewStyleSheetFilePath = styleSheetPath
 
             fileOpenDialog.Destroy()
 
@@ -1144,9 +1146,11 @@ Note: The FlowTracker2 date and time is stored as UTC along with an offset for l
         if path != "":
             path = path + '\\' + defaultName
             if self.uploadOpenPdf:
-                self.manager.ExportAsPDFFromXMLOpen(path, self.fullStyleSheetFilePath, xml)
+                # self.manager.ExportAsPDFFromXMLOpen(path, self.fullStyleSheetFilePath, xml)
+                self.manager.ExportAsPDFFromXMLOpen(path, self.viewStyleSheetFilePath, xml)
             else:
-                self.manager.ExportAsPDFFromXML(path, self.fullStyleSheetFilePath, xml)
+                # self.manager.ExportAsPDFFromXML(path, self.fullStyleSheetFilePath, xml)
+                self.manager.ExportAsPDFFromXML(path, self.viewStyleSheetFilePath, xml)
         self.uploadOpenPdf = False
 
 
