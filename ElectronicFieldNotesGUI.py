@@ -613,8 +613,8 @@ Note: The FlowTracker2 date and time is stored as UTC along with an offset for l
 
         self.envCond = EnvironmentConditionsPanel(self.mode, self.form, style=wx.SIMPLE_BORDER, size=(-1, -1))
 
-        midSizer.Add(self.stageMeas, 29, wx.EXPAND)
-        midSizer.Add(self.envCond, 20, wx.EXPAND)
+        midSizer.Add(self.stageMeas, 23, wx.EXPAND)
+        midSizer.Add(self.envCond, 10, wx.EXPAND)
 
         self.measResults = MeasurementResultsPanel(self.mode, self.lang, self.form, style=wx.SIMPLE_BORDER, size=(1, -1))
 
