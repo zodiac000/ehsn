@@ -139,6 +139,13 @@ class EHSNGui(wx.Frame):
     def __init__(self, mode, ver, *args, **kwargs):
         super(EHSNGui, self).__init__(*args, **kwargs)
 
+        self.ID_IMPORT_HFC = ID_IMPORT_HFC
+        self.ID_IMPORT_FTDIS = ID_IMPORT_FTDIS
+        self.ID_IMPORT_FT2 = ID_IMPORT_FT2
+        self.ID_IMPORT_QRXML = ID_IMPORT_QRXML
+        self.ID_IMPORT_SXSMMT = ID_IMPORT_SXSMMT
+        self.ID_IMPORT_RSSDIS = ID_IMPORT_RSSDIS
+
         self.version = ver
         self.noteHeaderTxt = "Hydrometric Survey Notes" + " " + self.version
         self.timezone = ""

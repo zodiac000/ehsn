@@ -220,6 +220,7 @@ Discharge(q/Q):   {}%
         # self.midsectionPanelSizerV.Add((-1, 20), 0, wx.EXPAND)
         self.midsectionPanelSizerV.Add(self.panel2SizerH, 0, wx.EXPAND)
         plt.close()
+        
 
 
     def onMouseOverAx2(self, event):

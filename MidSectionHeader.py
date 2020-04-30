@@ -427,6 +427,7 @@ class MidSectionHeader(wx.Panel):
             if summaryPanel.plot != None:
                 summaryPanel.plot.Hide()
                 summarySizer.Remove(2)
+                del summaryPanel.plot
                 summaryPanel.plot = None
                 # plt.close(1)
             summaryPanel.plot = MidsectionImportPanel(summaryPanel, style=wx.SIMPLE_BORDER)
