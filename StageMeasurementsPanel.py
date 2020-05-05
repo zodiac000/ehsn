@@ -520,7 +520,6 @@ be available in Aquarius, it is NOT uploaded from the Corrected M.G.H. field her
 
         #Pre-Summary Stuff
         preSummaryPanel = wx.Panel(self, style=wx.SIMPLE_BORDER)
-        # preSummarySizer = wx.GridBagSizer(0, 0)
         preSummarySizer = wx.BoxSizer(wx.VERTICAL)
         preSummaryPanel.SetSizer(preSummarySizer)
 
@@ -528,7 +527,7 @@ be available in Aquarius, it is NOT uploaded from the Corrected M.G.H. field her
         self.PreSummColWidth = self.colHeaderWidth
         self.SummColWidth = self.colHeaderWidth * 1.9 + 33
 
-        weightMGHPanel = wx.Panel(preSummaryPanel, style=wx.SIMPLE_BORDER)
+        weightMGHPanel = wx.Panel(preSummaryPanel, style=wx.NO_BORDER)
         weightMGHSizer = wx.BoxSizer(wx.HORIZONTAL)
         weightMGHTxt = wx.StaticText(weightMGHPanel, label=self.weightedMghTxtLbl, style=wx.ALIGN_CENTRE_HORIZONTAL, size=(self.SummColWidth-15, self.PreSummRowHeight))
         self.weightMGHButton = wx.Button(weightMGHPanel, size=(15, self.PreSummRowHeight), label="!")
@@ -537,19 +536,19 @@ be available in Aquarius, it is NOT uploaded from the Corrected M.G.H. field her
         weightMGHSizer.Add(self.weightMGHButton, 0, wx.EXPAND)
         weightMGHPanel.SetSizer(weightMGHSizer)
 
-        srcSummPanel = wx.Panel(preSummaryPanel, style=wx.SIMPLE_BORDER)
+        srcSummPanel = wx.Panel(preSummaryPanel, style=wx.NO_BORDER)
         srcSummSizer = wx.BoxSizer(wx.HORIZONTAL)
         srcSummPanelTxt = wx.StaticText(srcSummPanel, label=self.srcTxtLbl, style=wx.ALIGN_CENTRE_HORIZONTAL, size=(self.SummColWidth, self.PreSummRowHeight))
         srcSummSizer.Add(srcSummPanelTxt, 0, wx.EXPAND)
         srcSummPanel.SetSizer(srcSummSizer)
 
-        gcSummPanel = wx.Panel(preSummaryPanel, style=wx.SIMPLE_BORDER)
+        gcSummPanel = wx.Panel(preSummaryPanel, style=wx.NO_BORDER)
         gcSummSizer = wx.BoxSizer(wx.HORIZONTAL)
         gcSummPanelTxt = wx.StaticText(gcSummPanel, label=self.gcTxtLbl, style=wx.ALIGN_CENTRE_HORIZONTAL, size=(self.SummColWidth, self.PreSummRowHeight))
         gcSummSizer.Add(gcSummPanelTxt, 0, wx.EXPAND)
         gcSummPanel.SetSizer(gcSummSizer)
 
-        corrMghPanel = wx.Panel(preSummaryPanel, style=wx.SIMPLE_BORDER)
+        corrMghPanel = wx.Panel(preSummaryPanel, style=wx.NO_BORDER)
         corrMghSizer = wx.BoxSizer(wx.HORIZONTAL)
         corrMghPanelTxt = wx.StaticText(corrMghPanel, label=self.correctedMghTxtLbl, style=wx.ALIGN_CENTRE_HORIZONTAL, size=(self.SummColWidth, self.PreSummRowHeight))
         # self.correctMGHButton = wx.Button(corrMghPanel, size=(15, self.PreSummRowHeight), label="!")
